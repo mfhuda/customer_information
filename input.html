@@ -1,0 +1,140 @@
+<!-- 
+60
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cara Membuat Form Input Textbox Dynamic Dengan jQuery</title>
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+ .tambah{
+ margin-left:5px;  
+ } 
+</style>
+<body>
+ 
+<div class="container">
+ 
+  <h1 class="text-center">Form Input Textbox Dynamic Dengan jQuery</h1><hr>
+  <div class="col-md-12"> 
+   <div class="form-group baru">
+    <div class="input-group">
+     <input class="form-control" name="pendidikan" type="text" required>
+     <div class="input-group-btn">
+      <button type="button" class="btn btn-success tambah"><i class="fa fa-plus"></i></button>
+     </div>
+    </div>
+   </div> 
+  </div>
+ 
+</div>
+</body>
+ 
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+$(function(){
+   
+   $(document).on('click', '.tambah', function(e)
+   {
+    e.preventDefault();
+    var  kolom = $('.col-md-12:first'),
+         formGroup = $(this).parents('.form-group:first'),
+         inputTextbox = $(formGroup.clone()).appendTo(kolom);
+ 
+    inputTextbox.find('input').val('');
+    kolom.find('.baru:not(:last) .tambah').removeClass('tambah').addClass('btn-remove').removeClass('btn-success').addClass('btn-danger').html('<i class="fa fa-minus"></i>');
+ 
+   });
+ 
+   $(document).on('click', '.btn-remove', function(e){
+    $(this).parents('.baru:first').remove();
+    e.preventDefault();
+    return false;
+   });
+ 
+});
+</script>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+</head>
+<body>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-md-8">
+        <form method="post" action="">
+            
+            <div class="form-group fieldGroup">
+                <div class="input-group">
+                    <input type="text" name="username[]" class="form-control" placeholder="Enter Your Username"/>
+                    <div class="input-group-addon ml-3"> 
+                        <a href="javascript:void(0)" class="btn btn-success addMore"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Submit"/>            
+        </form>
+        <div class="form-group fieldGroupCopy" style="display: none;">
+            <div class="input-group">
+                <input type="password" name="password[]" class="form-control" placeholder="Enter Your password"/>
+                <div class="input-group-addon ml-3"> 
+                    <a href="javascript:void(0)" class="btn btn-danger remove"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function(){
+    // membatasi jumlah inputan
+    var maxGroup = 10;
+    
+    //melakukan proses multiple input 
+    $(".addMore").click(function(){
+        if($('body').find('.fieldGroup').length < maxGroup){
+            var fieldHTML = '<div class="form-group fieldGroup">'+$(".fieldGroupCopy").html()+'</div>';
+            $('body').find('.fieldGroup:last').after(fieldHTML);
+        }else{
+            alert('Maximum '+maxGroup+' groups are allowed.');
+        }
+    });
+    
+    //remove fields group
+    $("body").on("click",".remove",function(){ 
+        $(this).parents(".fieldGroup").remove();
+    });
+});
+  </script>
+  <?php
+if(isset($_POST['submit'])){
+    $uname = $_POST['username'];
+    $email = $_POST['email'];
+    $pass = $_POST['password'];
+    if(!empty($uname)){
+        for($a = 0; $a < count($uname); $a++){
+            if(!empty($uname[$a])){
+                $username = $uname[$a];
+                $emails = $email[$a];
+                $password = $pass[$a];
+                
+                //membuat insert data sementara
+                echo 'Data ke -' .($a+1).'=> Nama: '.$username.'; Email: '.$emails.'; Password: '.$password.'</br>';
+            }
+        }
+    }
+}
+?>
